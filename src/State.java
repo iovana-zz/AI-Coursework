@@ -3,7 +3,7 @@ public class State {
 	int agentx, agenty, n;
 	char[][] matrix;
 	boolean moved = false, stateExists = false;
-	int heuristic;
+	int heuristic = -1;
 	String hashString = new String();
 
 	public State(State parent, char direction) {
@@ -18,41 +18,52 @@ public class State {
 		}
 		moveDirection(direction);
 		/*
-		for (int j = 0; j < n; j++) {
-			for (int i = 0; i < n; i++) {
-				// must convert it to a string as each char[][] is a new object and states won't be unique
-				hashString = hashString + String.valueOf(matrix[i][j]);
-			}
-		}
-		stateExists = Main.addState(hashString);
-		*/
+		 * for (int j = 0; j < n; j++) { for (int i = 0; i < n; i++) { // must
+		 * convert it to a string as each char[][] is a new object and states
+		 * won't be unique hashString = hashString +
+		 * String.valueOf(matrix[i][j]); } } stateExists =
+		 * Main.addState(hashString);
+		 */
 
 	}
+
+	public int getHeuristic() {
+		if (heuristic != -1) {
+			calculateHeuristic();
+		}
+		return heuristic;
+	}
+
+	public void setHeuristic(int heuristic) {
+		this.heuristic = heuristic;
+	}
+
 	public void calculateHeuristic() {
 		int x = 0, y = 0;
-		char[] tiles = new char[]{'A','B','C','D','E','F','G','H'};
-		for(char tile: tiles) {
+		char[] tiles = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
+		for (char tile : tiles) {
 			int x1 = 0, y1 = 0;
 			for (int j = 0; j < n; j++) {
 				for (int i = 0; i < n; i++) {
-					if(matrix[i][j] == tile) {
+					if (matrix[i][j] == tile) {
 						x1 = i;
-						y1 = j; 
+						y1 = j;
 						j = n;
 						break;
 					}
 				}
 			}
-			int deltax = Math.abs(x1-x);
-			int deltay = Math.abs(y1-y);
+			int deltax = Math.abs(x1 - x);
+			int deltay = Math.abs(y1 - y);
 			heuristic = deltax + deltay;
 			++x;
-			if(x == n) {
+			if (x == n) {
 				++y;
 				x = 0;
 			}
 		}
 	}
+
 	public State(char[][] matrix, int agentx, int agenty) {
 		this.matrix = matrix;
 		this.agentx = agentx;
@@ -138,17 +149,17 @@ public class State {
 
 	// checks whether the tiles form a tower
 	public boolean checkGoalState() {
-		char[] tiles = new char[]{'A','B','C','D','E','F','G','H'};
+		char[] tiles = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'O' };
 		int counter = 0;
-		for (int j = 0; j < n-2; j++) {
+		for (int j = 0; j < n; j++) {
 			for (int i = 0; i < n; i++) {
-				if(matrix[i][j]!=tiles[counter]) {
+				if (matrix[i][j] != tiles[counter]) {
 					return false;
 				}
 				counter++;
 			}
 		}
-		System.out.println("Success");
+		// System.out.println("Success");
 		return true;
 	}
 }

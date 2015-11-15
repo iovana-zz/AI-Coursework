@@ -6,13 +6,17 @@ public class Node {
 	ArrayList<Node> children = new ArrayList<Node>();
 	State nodestate;
 	boolean discovered = false;
-
+	
+	
 	public Node(Node parent, int depth, char direction) {
 		this.depth = depth;
 		this.parent = parent;
 		nodestate = new State(parent.getState(), direction);
 	}
 
+	public int getDepth() {
+		return depth;
+	}
 	public Node(State s) {
 		depth = 0;
 		parent = null;
@@ -30,7 +34,6 @@ public class Node {
 		downchild = new Node(this, depth + 1, 'D');
 
 		if (leftchild.getState().getMoved() == true && !leftchild.getState().stateExists) {
-			Main.print(leftchild.getState().matrix);
 			children.add(leftchild);
 		}
 		if (rightchild.getState().getMoved() == true && !rightchild.getState().stateExists) {
