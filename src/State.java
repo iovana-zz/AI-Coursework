@@ -28,14 +28,10 @@ public class State {
 	}
 
 	public int getHeuristic() {
-		if (heuristic != -1) {
+		if (heuristic == -1) {
 			calculateHeuristic();
 		}
 		return heuristic;
-	}
-
-	public void setHeuristic(int heuristic) {
-		this.heuristic = heuristic;
 	}
 
 	public void calculateHeuristic() {
@@ -55,7 +51,7 @@ public class State {
 			}
 			int deltax = Math.abs(x1 - x);
 			int deltay = Math.abs(y1 - y);
-			heuristic = deltax + deltay;
+			heuristic += deltax + deltay;
 			++x;
 			if (x == n) {
 				++y;

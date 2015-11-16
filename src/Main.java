@@ -13,6 +13,7 @@ public class Main {
 	static int n = 3;
 	char tileA = 'A', tileB = 'B', tileC = 'C', tileO = 'O', tileN = 'N';
 	float dfscount = 0, bfscount = 0, itdcount = 0, astarcount = 0;
+	HashMap<Node, Integer> fscore;
 	// static HashMap<String, Integer> existingStates = new HashMap<String,
 	// Integer>();
 
@@ -90,7 +91,7 @@ public class Main {
 	
 	public void assign() {
 		for (int j = 1; j < 6; j++) {
-			float r = 1;
+			float r = 5;
 			for (int i = 0; i < r; i++) {
 				State startstate = new State(getInitialMatrix(), 2, 2);
 				controlDepth(j, startstate);
@@ -107,7 +108,7 @@ public class Main {
 			}
 //			System.out.println("BFS at dificulty: " + j + " = " + bfscount / r);
 		//	System.out.println("DFS at dificulty: " + j + " = " +  dfscount / r);
-//			System.out.println("Iterative deepening at dificulty: " + j + " = " +  itdcount / r);
+			//System.out.println("Iterative deepening at dificulty: " + j + " = " +  itdcount / r);
 			System.out.println("A* search at dificulty: " + j + " = " +  astarcount / r);
 			bfscount = 0;
 			dfscount = 0;
@@ -117,12 +118,11 @@ public class Main {
 	}
 
 	public class HeuristicComparator implements Comparator<Node> {
-
 		public int compare(Node node1, Node node2) {
-			if (node1.getState().getHeuristic() < node2.getState().getHeuristic()) {
+			if (fscore.get(node1) < fscore.get(node2)) {
 				return -1;
 			}
-			if (node1.getState().getHeuristic() > node2.getState().getHeuristic()) {
+			else if (fscore.get(node1) > fscore.get(node2)) {
 				return 1;
 			}
 			return 0;
@@ -135,7 +135,7 @@ public class Main {
 		open.add(start);
 		HashMap<Node, Integer> gscore = new HashMap<Node, Integer>();
 		gscore.put(start, 0);
-		HashMap<Node, Integer> fscore = new HashMap<Node, Integer>();
+		fscore = new HashMap<Node, Integer>();
 		fscore.put(start, start.getState().getHeuristic());
 
 		while (!open.isEmpty()) {
@@ -150,14 +150,20 @@ public class Main {
 				if (closedSet.contains(child)) {
 					continue;
 				}
-				int tempg = gscore.get(current) + 1;
+				if(!gscore.containsKey(child)){
+					gscore.put(child, 1000000);
+					fscore.put(child, 1000000);
+				}
+				int tempg = current.depth + 1;
 				if (!open.contains(child)) {
 					open.add(child);
 				} else if (tempg >= gscore.get(child)) {
 					continue;
 				}
+				open.remove(child);
 				gscore.put(child, tempg);
 				fscore.put(child, tempg + child.getState().getHeuristic());
+				open.add(child);
 			}
 		}
 	}
