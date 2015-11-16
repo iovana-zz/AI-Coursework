@@ -14,18 +14,7 @@ public class Main {
 	char tileA = 'A', tileB = 'B', tileC = 'C', tileO = 'O', tileN = 'N';
 	float dfscount = 0, bfscount = 0, itdcount = 0, astarcount = 0;
 	HashMap<Node, Integer> fscore;
-	// static HashMap<String, Integer> existingStates = new HashMap<String,
-	// Integer>();
-
-	/*
-	 * ArrayList<Node> discovered = new ArrayList<Node>();
-	 */
-
-	/*
-	 * public static boolean addState(String m) { if
-	 * (existingStates.containsKey(m)) { return false; } existingStates.put(m,
-	 * 1); return true; }
-	 */
+	ArrayList<Node> discovered = new ArrayList<Node>();
 
 	public void controlDepth(int difficulty, State startstate) {
 		char lastcharacter = 'z';
@@ -88,28 +77,27 @@ public class Main {
 		}
 		return matrix;
 	}
-	
+
 	public void assign() {
-		for (int j = 1; j < 6; j++) {
+		for (int j = 1; j < 50; j++) {
 			float r = 5;
 			for (int i = 0; i < r; i++) {
 				State startstate = new State(getInitialMatrix(), 2, 2);
 				controlDepth(j, startstate);
 				// print(startstate.getParentMatrix());
 				Node startNode = new Node(startstate);
-				/*
-				 * addState(startstate.hashString);
-				 */
-
-//				breadthFirstSearch(startNode);
-//				depthFirstSearch(startNode);
-//				iterativeDeepening(startNode);
+				// breadthFirstSearch(startNode);
+				// depthFirstSearch(startNode);
+				// iterativeDeepening(startNode);
 				astarsearch(startNode);
 			}
-//			System.out.println("BFS at dificulty: " + j + " = " + bfscount / r);
-		//	System.out.println("DFS at dificulty: " + j + " = " +  dfscount / r);
-			//System.out.println("Iterative deepening at dificulty: " + j + " = " +  itdcount / r);
-			System.out.println("A* search at dificulty: " + j + " = " +  astarcount / r);
+			// System.out.println("BFS at dificulty: " + j + " = " + bfscount /
+			// r);
+			// System.out.println("DFS at dificulty: " + j + " = " + dfscount /
+			// r);
+			// System.out.println("Iterative deepening at dificulty: " + j + " =
+			// " + itdcount / r);
+			System.out.println("A* search at dificulty: " + j + " = " + astarcount / r);
 			bfscount = 0;
 			dfscount = 0;
 			itdcount = 0;
@@ -121,8 +109,7 @@ public class Main {
 		public int compare(Node node1, Node node2) {
 			if (fscore.get(node1) < fscore.get(node2)) {
 				return -1;
-			}
-			else if (fscore.get(node1) > fscore.get(node2)) {
+			} else if (fscore.get(node1) > fscore.get(node2)) {
 				return 1;
 			}
 			return 0;
@@ -150,7 +137,7 @@ public class Main {
 				if (closedSet.contains(child)) {
 					continue;
 				}
-				if(!gscore.containsKey(child)){
+				if (!gscore.containsKey(child)) {
 					gscore.put(child, 1000000);
 					fscore.put(child, 1000000);
 				}

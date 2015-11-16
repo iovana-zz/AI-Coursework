@@ -33,16 +33,16 @@ public class Node {
 		upchild = new Node(this, depth + 1, 'U');
 		downchild = new Node(this, depth + 1, 'D');
 
-		if (leftchild.getState().getMoved() == true && !leftchild.getState().stateExists) {
+		if (leftchild.getState().getMoved() == true) {
 			children.add(leftchild);
 		}
-		if (rightchild.getState().getMoved() == true && !rightchild.getState().stateExists) {
+		if (rightchild.getState().getMoved() == true) {
 			children.add(rightchild);
 		}
-		if (upchild.getState().getMoved() == true && !upchild.getState().stateExists) {
+		if (upchild.getState().getMoved() == true) {
 			children.add(upchild);
 		}
-		if (downchild.getState().getMoved() == true && !downchild.getState().stateExists) {
+		if (downchild.getState().getMoved() == true) {
 			children.add(downchild);
 		}
 		return children;

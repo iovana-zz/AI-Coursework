@@ -1,10 +1,8 @@
 
 public class State {
-	int agentx, agenty, n;
+	int agentx, agenty, n, heuristic = -1;
 	char[][] matrix;
-	boolean moved = false, stateExists = false;
-	int heuristic = -1;
-	String hashString = new String();
+	boolean moved = false;
 
 	public State(State parent, char direction) {
 		this.agentx = parent.getAgentx();
@@ -17,14 +15,6 @@ public class State {
 			}
 		}
 		moveDirection(direction);
-		/*
-		 * for (int j = 0; j < n; j++) { for (int i = 0; i < n; i++) { // must
-		 * convert it to a string as each char[][] is a new object and states
-		 * won't be unique hashString = hashString +
-		 * String.valueOf(matrix[i][j]); } } stateExists =
-		 * Main.addState(hashString);
-		 */
-
 	}
 
 	public int getHeuristic() {
